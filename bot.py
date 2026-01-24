@@ -10,7 +10,7 @@ ADMIN_IDS = [5333130126]  # ТВОЙ ID
 NEWS_CHANNEL = "@GramHubNews"  # Новостник GramHub
 
 WEBHOOK_PATH = f"/webhook/{TOKEN}"
-WEBHOOK_URL = f"https://YOUR-RENDER-URL.onrender.com{WEBHOOK_PATH}"
+WEBHOOK_URL = f"https://gramhub-2qn6.onrender.com{WEBHOOK_PATH}"
 
 USERS_FILE = "users.json"
 SPONSORS_FILE = "sponsors.json"
