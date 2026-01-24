@@ -9,7 +9,7 @@ ADMIN_IDS = [5333130126]
 NEWS_CHANNEL = "@GramHubNews"
 
 WEBHOOK_PATH = f"/webhook/{TOKEN}"
-WEBHOOK_URL = f"https://yourapp.onrender.com{WEBHOOK_PATH}"  # Замените на свой URL
+WEBHOOK_URL = f"https://gramhub-2qn6.onrender.com{WEBHOOK_PATH}"  # Замените на свой URL
 
 USERS_FILE = "users.json"
 SPONSORS_FILE = "sponsors.json"
@@ -48,7 +48,6 @@ def get_user(uid, username):
         save_json(USERS_FILE, users_db)
     return users_db["users"][uid]
 
-withdraw_wait = set()
 captcha_answers = {}
 
 # ================= КАПЧА =================
@@ -69,7 +68,7 @@ def check_captcha(m):
     else:
         send_captcha(m)
 
-# ================= ПРОВЕРКА ПОДПИСКИ =================
+# ================= ПОДПИСКА =================
 def is_subscribed(uid):
     try:
         member = bot.get_chat_member(NEWS_CHANNEL, uid)
@@ -79,12 +78,7 @@ def is_subscribed(uid):
         return False
     for s in sponsors_db["sponsors"]:
         try:
-            if s.startswith("@"):
-                member = bot.get_chat_member(s, uid)
-            elif s.startswith("https://t.me/+"):
-                member = bot.get_chat_member(s, uid)
-            else:
-                member = bot.get_chat_member(s, uid)
+            member = bot.get_chat_member(s, uid)
             if member.status not in ["member", "administrator", "creator"]:
                 return False
         except:
@@ -134,11 +128,11 @@ def start(m):
 
 def send_welcome(m):
     text = f"Привет {m.from_user.username or m.from_user.first_name}!\n\n" \
-           "Ты попал в лучшего бота по заработку Gram, приглашай друзей по реферальной ссылке и зарабатывай Gram!\n\n" \
+           "Ты попал в лучшего бота по заработку Gram, приглашай друзей и зарабатывай Gram!\n\n" \
            "❝ Для начала подпишись на все каналы ниже 👇 ❞"
     bot.send_message(m.chat.id, text, reply_markup=sponsors_kb())
 
-# ================= ПРОВЕРКА НОВЫХ СПОНСОРОВ =================
+# ================= НОВЫЕ СПОНСОРЫ =================
 def check_new_sponsors(uid, chat_id):
     u = get_user(uid, "")
     new_spons = [s for s in sponsors_db["sponsors"] if s not in u["last_checked_sponsors"]]
@@ -177,7 +171,6 @@ def check_subs(c):
 
 # ================= МЕНЮ =================
 def button_check_subscription(func):
-    """Декоратор для проверки новых спонсоров перед любыми кнопками"""
     def wrapper(m):
         if check_new_sponsors(m.from_user.id, m.chat.id):
             return
@@ -301,6 +294,11 @@ def index():
     return "Bot is alive", 200
 
 if __name__ == "__main__":
-    bot.remove_webhook()
-    bot.set_webhook(url=WEBHOOK_URL)
+    try:
+        bot.remove_webhook()
+        bot.set_webhook(url=WEBHOOK_URL)
+        print("Webhook установлен")
+    except:
+        print("Webhook не установлен, запускаем polling")
+        bot.infinity_polling()
     app.run(host="0.0.0.0", port=10000)
