@@ -6,7 +6,7 @@ from flask import Flask, request
 # ================= НАСТРОЙКИ =================
 
 TOKEN = "8275742360:AAFDN-FBvQtgdTNeCOd9nlWXJFXQS_4LbaU"
-ADMIN_IDS = [123456789]  # ТВОЙ ID
+ADMIN_IDS = [5333130126]  # ТВОЙ ID
 NEWS_CHANNEL = "@GramHubNews"  # Новостник GramHub
 
 WEBHOOK_PATH = f"/webhook/{TOKEN}"
