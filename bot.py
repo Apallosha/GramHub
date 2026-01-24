@@ -186,7 +186,7 @@ def withdraw(m):
 
     user = get_user(m.from_user.id, m.from_user.username)
     if user["balance"] < MIN_WITHDRAW:
-        bot.send_message(m.chat.id, "Минимальный вывод 20000 Gram")
+        bot.send_message(m.chat.id, "Минимальный вывод 25000 Gram")
         return
 
     bot.send_message(m.chat.id, "Введи сумму для вывода (минимум 20000)")
