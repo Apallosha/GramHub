@@ -11,6 +11,7 @@ REF_REWARD = 1250
 MIN_WITHDRAW = 25000
 
 bot = telebot.TeleBot(TOKEN)
+bot.remove_webhook()
 
 captcha_cache = {}
 withdraw_wait = set()
